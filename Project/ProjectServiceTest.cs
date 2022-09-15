@@ -1,6 +1,7 @@
 ﻿using Gisfpp_projects.Project.Services;
 using Gisfpp_projects.Project.Model;
 using Gisfpp_projects.Project.Model.Dto;
+using Microsoft.EntityFrameworkCore;
 
 namespace Gisfpp_projects_test.Project
 {
@@ -10,7 +11,8 @@ namespace Gisfpp_projects_test.Project
 
         public ProjectServiceTest()
         {
-            this._sut = new ProjectService();
+            DbContextOptions contextOptions = new DbContextOptionsBuilder().UseMySql("Data Source =gisfpp.db", null).Options;
+            this._sut = new ProjectService(new Gisfpp_projects.Project.Data.ProjectDbContext(contextOptions));
         }
 
         /* Template signature method test
