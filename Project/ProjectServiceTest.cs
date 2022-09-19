@@ -11,8 +11,10 @@ namespace Gisfpp_projects_test.Project
 
         public ProjectServiceTest()
         {
-            DbContextOptions contextOptions = new DbContextOptionsBuilder().UseMySql("Data Source =gisfpp.db", null).Options;
-            this._sut = new ProjectService(new Gisfpp_projects.Project.Data.ProjectDbContext(contextOptions));
+            DbContextOptions contextOptions = new DbContextOptionsBuilder().UseSqlite("Data Source=gisfpp.db").Options;
+            var dbContext = new Gisfpp_projects.Project.Data.ProjectDbContext(contextOptions);
+            _sut = new ProjectService(dbContext);
+            dbContext.Database.EnsureCreated();
         }
 
         /* Template signature method test
@@ -73,7 +75,7 @@ namespace Gisfpp_projects_test.Project
             }
             catch (ArgumentException exc) 
             {
-                Assert.Equal(exc.Message, ProjectService.MSG_TITLE_GREATER_80);   
+                Assert.Equal(ProjectService.MSG_TITLE_GREATER_80, exc.Message);   
             }            
         }
 
